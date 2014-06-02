@@ -2,14 +2,8 @@ var path = require('path');
 var file = require('fs-utils');
 var _ = require('lodash');
 
-/**
- * Format a .less file that only has comments and
- * `@import` statements.
- *
- * @param   {[type]}  str  [description]
- * @return  {[type]}       [description]
- */
 
+// Format a .less file that only has comments and `@import` statements.
 var format = function(str) {
   str = str.replace(/[\n\r]+/g, '\n');
   str = str.replace(/(^\/[^@]+)/gm, '\n$1\n');
