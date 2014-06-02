@@ -1,7 +1,22 @@
 var path = require('path');
 var file = require('fs-utils');
 var _ = require('lodash');
-var format = require('./lib/format.js');
+
+/**
+ * Format a .less file that only has comments and
+ * `@import` statements.
+ *
+ * @param   {[type]}  str  [description]
+ * @return  {[type]}       [description]
+ */
+
+var format = function(str) {
+  str = str.replace(/[\n\r]+/g, '\n');
+  str = str.replace(/(^\/[^@]+)/gm, '\n$1\n');
+  str = str.replace(/^\s*/, '');
+  return str;
+};
+
 
 /**
  * Pass a string, the import statement to add, and a keyword in a code comment that indicates where you want the `@import` statement to be added.
@@ -71,23 +86,26 @@ module.exports = function(str, statement, section, options) {
     throw new Error('You must pass a section to add-less-import. e.g. just a keyword in a code comment before the insertion point.');
   }
 
+  options = options || {};
   var imports = new RegExp('((^\\/[\\/\\*])(\\s*' + section + '\\s*)([^^@]+)([^\\/*\\/]+))', 'gmi');
   var output = str.replace(imports, function(match, $1, $2, $3, $4, components) {
     var comment = $2 + $3 + $4;
-    components = components + '\n' + statement;
-    components = _.unique(components.split('\n')).join('\n');
-
     var str = '';
-    str += comment;
-    str += '\n';
-    str += components;
-    str += '\n';
-    return str;
+
+    components = components.split('\n').filter(Boolean);
+    components = _.union([comment], components, ['@import "' + statement + '.less";']);
+    var uniqued = _.unique(components);
+
+    // if `noDupes` is defined in the options, error if one is found
+    if ((uniqued.length < components.length) && options.noDupes) {
+      throw new Error(statement, 'already exits.');
+    }
+    return uniqued.join('\n');
   });
+
 
   if (options.format) {
     return format(output);
   }
-
   return output;
 };
