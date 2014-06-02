@@ -1,7 +1,7 @@
 {
   "name": "add-less-import",
   "description": "Add an @import statement into a .less file at a specific point. ",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/jonschlinkert/add-less-import",
   "author": {
     "name": "Jon Schlinkert",
