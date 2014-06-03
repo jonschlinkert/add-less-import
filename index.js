@@ -21,20 +21,12 @@ var format = function(str) {
  * Assuming you have a `.less` file and it looks something like this:
  *
  * ```less
- * //
- * // Styles
- * // --------------------------------------------
- *
  * // Variables and mixins
  * `@import "variables.less";
  * `@import "mixins.less";
  *
  * // Components
  * `@import "alerts.less";
- * `@import "buttons.less";
- *
- * // Utilities
- * `@import "utilities.less";
  * ```
  *
  * Here is how you would add import statements:
@@ -51,21 +43,13 @@ var format = function(str) {
  * The result would be:
  *
  * ```less
- * //
- * // Styles
- * // --------------------------------------------
- *
  * // Variables and mixins
  * `@import "variables.less";
  * `@import "mixins.less";
  *
  * // Components
  * `@import "alerts.less";
- * `@import "buttons.less";
  * `@import "nav.less";
- *
- * // Utilities
- * `@import "utilities.less";
  * ```
  *
  * @param   {String}  `str`
